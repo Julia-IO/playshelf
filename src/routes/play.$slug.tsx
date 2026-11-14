@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Maximize } from "lucide-react";
 import { resources } from "@/data/resources";
+import { ShareButton } from "@/components/ShareButton";
 
 export const Route = createFileRoute("/play/$slug")({
   loader: ({ params }) => {
@@ -30,12 +31,15 @@ function Play() {
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
         <span className="font-bold">{r.name}</span>
+        <div className="flex items-center gap-2">
+        <ShareButton slug={r.slug} name={r.name} />
         <button
           onClick={() => document.getElementById("game")?.requestFullscreen?.()}
           className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground"
         >
           <Maximize className="h-4 w-4" /> Full screen
         </button>
+        </div>
       </header>
       <iframe id="game" src={r.file} title={r.name} className="mx-3 mb-3 flex-1 rounded-2xl border border-border bg-card" allow="autoplay; fullscreen" />
     </div>

@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronRight, Folder, FolderOpen, Share2, Play } from "lucide-react";
+import { ChevronRight, Folder, FolderOpen, Play } from "lucide-react";
 import heroArt from "@/assets/hero-art.jpg";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
+import { ShareButton } from "@/components/ShareButton";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,12 +46,6 @@ function Index() {
   const list = subject ? resourcesFor(subject) : [];
   const res = resources.find((r) => r.slug === slug && list.includes(r));
 
-  const share = async () => {
-    if (!res) return;
-    const url = `${location.origin}/play/${res.slug}`;
-    if (navigator.share) await navigator.share({ title: res.name, url }).catch(() => {});
-    else await navigator.clipboard.writeText(url);
-  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
@@ -119,7 +114,7 @@ function Index() {
               <h3 className="mt-5 text-sm">Description</h3>
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{res.description}</p>
               <div className="mt-5 flex gap-2">
-                <button onClick={share} className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-1.5 text-sm font-medium hover:bg-accent"><Share2 className="h-4 w-4" />Share</button>
+                <ShareButton slug={res.slug} name={res.name} />
                 <Link to="/play/$slug" params={{ slug: res.slug }} className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-1.5 text-sm font-medium text-primary-foreground"><Play className="h-4 w-4" />Play</Link>
               </div>
             </div>

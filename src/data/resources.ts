@@ -1,3 +1,5 @@
+import catTagThumbnail from "@/assets/cat-tag-vs-robot-cats.jpg.asset.json";
+
 export type Subject = { id: string; name: string; emoji: string };
 export type Resource = {
   slug: string;
@@ -29,7 +31,7 @@ export const resources: Resource[] = [
     slug: "cat-tag-vs-robot-cats",
     name: "Cat Tag vs Robot Cats",
     file: "/games/cat-tag-vs-robot-cats.html",
-    thumb: "/games/cat-tag-vs-robot-cats.jpg",
+    thumb: catTagThumbnail.url,
     subjects: ["by-kids"],
     ages: "4+",
     dateAdded: "Nov 14, 2026",

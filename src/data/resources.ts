@@ -40,7 +40,7 @@ export const resources: Resource[] = [
     dateAdded: "Nov 14, 2026",
     tags: ["AI", "Thinking", "Online safety"],
     description:
-      "A team game where kids level up from AI rookie to scam-proof expert: spot what's real or fake, earn XP and learn to stay safe online.",
+      "A guided presentation and game for an adult to lead, ideally with a group of kids playing in teams. Level up from AI rookie to scam-proof expert: spot what's real or fake, earn XP and learn to stay safe online.",
     color: "dot-blue",
   },
   {
@@ -53,7 +53,7 @@ export const resources: Resource[] = [
     dateAdded: "Nov 14, 2026",
     tags: ["Apps", "Coding", "Technology"],
     description:
-      "Discover front end, back end, APIs and AI through a restaurant story, and learn how to talk to an AI that writes code for you.",
+      "A guided presentation and game for an adult to lead, ideally with a group of kids playing in teams. Discover front end, back end, APIs and AI through a restaurant story, and learn how to talk to an AI that writes code for you.",
     color: "dot-yellow",
   },
   {

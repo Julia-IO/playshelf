@@ -175,3 +175,6 @@
 }
 @keyframes float-art { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
 @utility animate-float { animation: float-art 7s ease-in-out infinite; }
+@utility fade-edges {
+  mask-image: radial-gradient(ellipse 72% 72% at center, black 80%, transparent 100%);
+}

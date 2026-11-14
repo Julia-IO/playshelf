@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Cat Tag vs Robot Cats</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #8fd16a; font-family: 'Fredoka', system-ui, sans-serif; touch-action: none; }
+  canvas { display: block; width: 100%; height: 100%; }
+  #hud { position: fixed; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; gap: 8px; pointer-events: none; }
+  .pill { background: rgba(255,255,255,.88); border: 3px solid #333; border-radius: 999px; padding: 6px 14px; font-weight: 700; font-size: 17px; color: #333; }
+  #status.it { background: #ff5a5a; color: #fff; }
+  #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(40,60,30,.55); }
+  .card { background: #fffaf0; border: 4px solid #333; border-radius: 24px; padding: 26px 22px; max-width: 360px; width: 88%; text-align: center; box-shadow: 0 8px 0 #333; }
+  .card h1 { font-size: 30px; color: #ff7a1a; margin-bottom: 10px; line-height: 1.1; }
+  .card p { font-size: 17px; color: #333; margin: 8px 0; line-height: 1.35; }
+  .card .big { font-size: 26px; font-weight: 700; }
+  button { margin-top: 16px; font-family: inherit; font-size: 22px; font-weight: 700; background: #ffcc33; border: 4px solid #333; border-radius: 16px; padding: 10px 28px; box-shadow: 0 5px 0 #333; color: #333; cursor: pointer; }
+  button:active { transform: translateY(4px); box-shadow: 0 1px 0 #333; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="pill" id="status">Get ready!</div>
+  <div class="pill" id="timer">60</div>
+</div>
+<div id="overlay">
+  <div class="card" id="card">
+    <h1>🐱 Cat Tag 🤖</h1>
+    <p>You're the <b>orange cat</b>. The others are <b>robot cats</b>!</p>
+    <p>The robot picks a <b style="color:#e33">tagger</b>. If you're not it, <b>run away!</b></p>
+    <p>If you get caught, <b>you're the tagger</b> — catch someone else to be free!</p>
+    <p style="font-size:15px;color:#666">Drag your finger anywhere to move (or use arrow keys).</p>
+    <button id="startBtn">Play!</button>
+  </div>
+</div>
+<script>
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+let W, H, DPR;
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  cv.width = W * DPR; cv.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize); resize();
+
+const R = 22;                 // cat radius
+const ROUND = 60;             // seconds per round
+const ROBOT_COLORS = ['#9aa7b8', '#7fb3d5', '#b39ddb', '#80cbc4', '#c5a880'];
+const ROBOT_NAMES = ['Bolt', 'Gizmo', 'Sprocket', 'Byte', 'Rusty'];
+
+let cats = [], tagger = null, state = 'menu', timeLeft = ROUND;
+let pickTimer = 0, pickIndex = 0, pickSpins = 0;
+let yourItTime = 0, timesCaught = 0, tagsMade = 0;
+let popups = [], lastT = 0;
+
+function makeCats() {
+  cats = [];
+  const n = 5;
+  cats.push({ x: W/2, y: H/2, vx: 0, vy: 0, player: true, name: 'You', color: '#ff9a3c', freeze: 0, noTagBack: null, noTagTime: 0, wander: 0, face: 1 });
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2;
+    const d = Math.min(W, H) * 0.33;
+    cats.push({ x: W/2 + Math.cos(a)*d, y: H/2 + Math.sin(a)*d, vx: 0, vy: 0, player: false,
+      name: ROBOT_NAMES[i], color: ROBOT_COLORS[i], freeze: 0, noTagBack: null, noTagTime: 0,
+      wander: Math.random()*Math.PI*2, face: 1 });
+  }
+}
+
+// ---------- input ----------
+const keys = {};
+window.addEventListener('keydown', e => { keys[e.key] = true; });
+window.addEventListener('keyup', e => { keys[e.key] = false; });
+let touch = null; // {sx, sy, x, y}
+cv.addEventListener('pointerdown', e => { touch = { sx: e.clientX, sy: e.clientY, x: e.clientX, y: e.clientY, id: e.pointerId }; });
+cv.addEventListener('pointermove', e => { if (touch && e.pointerId === touch.id) { touch.x = e.clientX; touch.y = e.clientY; } });
+const endTouch = e => { if (touch && e.pointerId === touch.id) touch = null; };
+cv.addEventListener('pointerup', endTouch);
+cv.addEventListener('pointercancel', endTouch);
+
+function playerInput() {
+  let dx = 0, dy = 0;
+  if (keys.ArrowLeft || keys.a) dx -= 1;
+  if (keys.ArrowRight || keys.d) dx += 1;
+  if (keys.ArrowUp || keys.w) dy -= 1;
+  if (keys.ArrowDown || keys.s) dy += 1;
+  if (touch) {
+    const tx = touch.x - touch.sx, ty = touch.y - touch.sy;
+    const m = Math.hypot(tx, ty);
+    if (m > 8) { const k = Math.min(m, 60) / 60; dx = tx/m*k; dy = ty/m*k; }
+  }
+  const m = Math.hypot(dx, dy);
+  if (m > 1) { dx /= m; dy /= m; }
+  return [dx, dy];
+}
+
+// ---------- game flow ----------
+function startGame() {
+  document.getElementById('overlay').classList.add('hidden');
+  makeCats();
+  tagger = null; timeLeft = ROUND; yourItTime = 0; timesCaught = 0; tagsMade = 0; popups = [];
+  state = 'picking'; pickTimer = 0; pickIndex = 0;
+  pickSpins = 12 + Math.floor(Math.random() * cats.length);
+}
+document.getElementById('startBtn').addEventListener('click', startGame);
+
+function setTagger(newT, oldT) {
+  tagger = newT;
+  newT.freeze = 1.2;             // new tagger counts to 3 before chasing
+  if (oldT) { newT.noTagBack = oldT; newT.noTagTime = 2.5; }
+  popup(newT.x, newT.y - 40, newT.player ? "YOU'RE IT!" : newT.name + ' is IT!', '#e33');
+}
+
+function popup(x, y, text, color) { popups.push({ x, y, text, color, t: 1.4 }); }
+
+function endRound() {
+  state = 'over';
+  const ov = document.getElementById('overlay');
+  const freeTime = ROUND - yourItTime;
+  let msg = timesCaught === 0 ? 'Nobody could catch you! 🏆' :
+            yourItTime < 15 ? 'Super speedy cat! ⭐' :
+            yourItTime < 30 ? 'Nice running! 😺' : 'Those robots are sneaky! 🤖';
+  document.getElementById('card').innerHTML = `
+    <h1>Time's up!</h1>
+    <p class="big">${msg}</p>
+    <p>You were free for <b>${Math.round(freeTime)}</b> seconds</p>
+    <p>You got caught <b>${timesCaught}</b> times</p>
+    <p>You tagged robots <b>${tagsMade}</b> times</p>
+    <button id="againBtn">Play again!</button>`;
+  ov.classList.remove('hidden');
+  document.getElementById('againBtn').addEventListener('click', startGame);
+}
+
+// ---------- update ----------
+function update(dt) {
+  for (const p of popups) { p.t -= dt; p.y -= 30*dt; }
+  popups = popups.filter(p => p.t > 0);
+
+  if (state === 'picking') {
+    pickTimer += dt;
+    const step = 0.08 + pickIndex * 0.012;
+    if (pickTimer > step) {
+      pickTimer = 0; pickIndex++;
+      if (pickIndex >= pickSpins) { state = 'play'; setTagger(cats[pickIndex % cats.length], null); }
+    }
+    return;
+  }
+  if (state !== 'play') return;
+
+  timeLeft -= dt;
+  if (tagger && tagger.player) yourItTime += dt;
+  if (timeLeft <= 0) { timeLeft = 0; endRound(); return; }
+
+  for (const c of cats) {
+    if (c.freeze > 0) { c.freeze -= dt; c.vx *= 0.8; c.vy *= 0.8; continue; }
+    if (c.noTagTime > 0) { c.noTagTime -= dt; if (c.noTagTime <= 0) c.noTagBack = null; }
+    let dx = 0, dy = 0, speed;
+    const isIt = c === tagger;
+
+    if (c.player) {
+      [dx, dy] = playerInput();
+      speed = isIt ? 215 : 200;
+    } else if (isIt) {
+      // chase the nearest cat it's allowed to tag
+      let best = null, bd = 1e9;
+      for (const o of cats) {
+        if (o === c || o === c.noTagBack) continue;
+        const d = Math.hypot(o.x - c.x, o.y - c.y);
+        if (d < bd) { bd = d; best = o; }
+      }
+      if (best) { dx = best.x - c.x; dy = best.y - c.y; }
+      speed = 175;
+    } else {
+      // run away from tagger, plus a little wandering
+      c.wander += (Math.random() - 0.5) * 3 * dt;
+      dx = Math.cos(c.wander) * 0.4; dy = Math.sin(c.wander) * 0.4;
+      if (tagger) {
+        const tx = c.x - tagger.x, ty = c.y - tagger.y, d = Math.hypot(tx, ty) || 1;
+        if (d < 240) { dx += tx/d * 2; dy += ty/d * 2; }
+      }
+      // avoid walls so they don't get stuck in corners
+      const m = 80;
+      if (c.x < m) dx += (m - c.x) / m * 2.5;
+      if (c.x > W - m) dx -= (c.x - (W - m)) / m * 2.5;
+      if (c.y < m + 50) dy += (m + 50 - c.y) / m * 2.5;
+      if (c.y > H - m) dy -= (c.y - (H - m)) / m * 2.5;
+      speed = 155;
+    }
+    const mag = Math.hypot(dx, dy);
+    if (mag > 0.01) {
+      const k = c.player ? 1 : 1 / mag;
+      c.vx += (dx * k * speed - c.vx) * Math.min(1, dt * 8);
+      c.vy += (dy * k * speed - c.vy) * Math.min(1, dt * 8);
+    } else { c.vx *= 0.85; c.vy *= 0.85; }
+    c.x += c.vx * dt; c.y += c.vy * dt;
+    if (Math.abs(c.vx) > 5) c.face = c.vx > 0 ? 1 : -1;
+    c.x = Math.max(R, Math.min(W - R, c.x));
+    c.y = Math.max(R + 50, Math.min(H - R, c.y));
+  }
+
+  // push overlapping runners apart a bit
+  for (let i = 0; i < cats.length; i++) for (let j = i + 1; j < cats.length; j++) {
+    const a = cats[i], b = cats[j];
+    if (a === tagger || b === tagger) continue;
+    const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy);
+    if (d > 0 && d < R * 2) { const p = (R*2 - d) / 2; a.x -= dx/d*p; a.y -= dy/d*p; b.x += dx/d*p; b.y += dy/d*p; }
+  }
+
+  // tagging!
+  if (tagger && tagger.freeze <= 0) {
+    for (const o of cats) {
+      if (o === tagger || o === tagger.noTagBack) continue;
+      if (Math.hypot(o.x - tagger.x, o.y - tagger.y) < R * 2) {
+        const old = tagger;
+        if (o.player) timesCaught++;
+        if (old.player) tagsMade++;
+        popup(old.x, old.y - 40, old.player ? 'Free! 🎉' : 'Tag!', '#2a8a2a');
+        setTagger(o, old);
+        break;
+      }
+    }
+  }
+}
+
+// ---------- drawing ----------
+function drawCat(c, highlight) {
+  const isIt = c === tagger;
+  const t = performance.now() / 1000;
+  const moving = Math.hypot(c.vx, c.vy) > 20;
+  const bob = moving ? Math.sin(t * 18 + c.x) * 2 : 0;
+  ctx.save();
+  ctx.translate(c.x, c.y + bob);
+
+  // shadow
+  ctx.fillStyle = 'rgba(0,0,0,.18)';
+  ctx.beginPath(); ctx.ellipse(0, R - bob + 2, R * 0.9, 6, 0, 0, Math.PI*2); ctx.fill();
+
+  // tagger glow
+  if (isIt || highlight) {
+    ctx.strokeStyle = highlight && !isIt ? '#ffd400' : '#ff3b3b';
+    ctx.lineWidth = 5;
+    ctx.globalAlpha = 0.6 + Math.sin(t * 8) * 0.3;
+    ctx.beginPath(); ctx.arc(0, 0, R + 9, 0, Math.PI*2); ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.scale(c.face, 1);
+  ctx.lineWidth = 3; ctx.strokeStyle = '#333'; ctx.fillStyle = c.color;
+
+  // tail
+  ctx.beginPath(); ctx.moveTo(-R*0.8, 6);
+  ctx.quadraticCurveTo(-R*1.6, -2 + Math.sin(t*6 + c.y)*6, -R*1.3, -R*0.9);
+  ctx.lineWidth = 6; ctx.stroke(); ctx.lineWidth = 3;
+  ctx.strokeStyle = c.color; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(-R*0.8, 6);
+  ctx.quadraticCurveTo(-R*1.6, -2 + Math.sin(t*6 + c.y)*6, -R*1.3, -R*0.9); ctx.stroke();
+  ctx.strokeStyle = '#333';
+
+  // ears
+  for (const s of [-1, 1]) {
+    ctx.beginPath();
+    ctx.moveTo(s*R*0.75, -R*0.45); ctx.lineTo(s*R*0.7, -R*1.25); ctx.lineTo(s*R*0.15, -R*0.8);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+  }
+  // head/body
+  ctx.beginPath(); ctx.arc(0, 0, R, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+
+  if (c.player) {
+    // stripes
+    ctx.strokeStyle = '#d4691a'; ctx.lineWidth = 3;
+    for (const s of [-1, 0, 1]) { ctx.beginPath(); ctx.moveTo(s*7, -R+3); ctx.lineTo(s*6, -R+11); ctx.stroke(); }
+    ctx.strokeStyle = '#333';
+    // eyes
+    ctx.fillStyle = '#333';
+    ctx.beginPath(); ctx.arc(-7, -2, 3.2, 0, Math.PI*2); ctx.arc(9, -2, 3.2, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(-6, -3, 1.1, 0, Math.PI*2); ctx.arc(10, -3, 1.1, 0, Math.PI*2); ctx.fill();
+    // nose + mouth
+    ctx.fillStyle = '#ff6f91';
+    ctx.beginPath(); ctx.moveTo(1, 4); ctx.lineTo(5, 4); ctx.lineTo(3, 7); ctx.closePath(); ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(1, 8, 2.5, 0, Math.PI); ctx.arc(5.5, 8, 2.5, 0, Math.PI); ctx.stroke();
+    // whiskers
+    ctx.lineWidth = 1.5;
+    for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(14, 5 + s*2); ctx.lineTo(27, 3 + s*5); ctx.stroke(); }
+  } else {
+    // robot: antenna, visor, bolts
+    ctx.beginPath(); ctx.moveTo(0, -R); ctx.lineTo(0, -R - 10); ctx.stroke();
+    ctx.fillStyle = isIt ? '#ff3b3b' : '#ffdd33';
+    ctx.beginPath(); ctx.arc(0, -R - 12, 4, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#2b2f3a';
+    roundRect(-14, -9, 30, 13, 6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = isIt ? '#ff4d4d' : '#44f0ff';
+    const blink = Math.sin(t * 2 + c.x) > 0.96 ? 0.5 : 4;
+    ctx.fillRect(-9, -4, 7, blink); ctx.fillRect(6, -4, 7, blink);
+    ctx.fillStyle = '#555';
+    ctx.beginPath(); ctx.arc(-12, 12, 2, 0, Math.PI*2); ctx.arc(12, 12, 2, 0, Math.PI*2); ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(-5, 11); ctx.lineTo(7, 11); ctx.stroke();
+  }
+  ctx.restore();
+
+  // name / IT tag
+  ctx.font = '700 13px Fredoka, sans-serif'; ctx.textAlign = 'center';
+  if (isIt) {
+    ctx.fillStyle = '#ff3b3b';
+    roundRect(c.x - 18, c.y - R - 40, 36, 20, 8); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.fillText(c.freeze > 0 ? Math.ceil(c.freeze * 2.5) : 'IT', c.x, c.y - R - 25);
+  } else {
+    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillText(c.name, c.x, c.y + R + 18);
+  }
+}
+
+function roundRect(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+
+function drawField() {
+  ctx.fillStyle = '#8fd16a'; ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#84c860';
+  for (let y = 0; y < H; y += 60) for (let x = (y/60)%2 ? 30 : 0; x < W; x += 60) ctx.fillRect(x, y, 30, 30);
+  ctx.fillStyle = '#6fb34c';
+  for (let i = 0; i < 25; i++) { const x = (i * 137) % W, y = 60 + (i * 251) % (H - 60); ctx.fillRect(x, y, 3, 8); ctx.fillRect(x + 5, y + 2, 3, 6); }
+}
+
+function drawJoystick() {
+  if (!touch || state !== 'play') return;
+  ctx.globalAlpha = 0.35; ctx.fillStyle = '#fff'; ctx.strokeStyle = '#333'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(touch.sx, touch.sy, 60, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  const dx = touch.x - touch.sx, dy = touch.y - touch.sy, m = Math.hypot(dx, dy), k = m > 60 ? 60/m : 1;
+  ctx.globalAlpha = 0.7;
+  ctx.beginPath(); ctx.arc(touch.sx + dx*k, touch.sy + dy*k, 24, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function draw() {
+  drawField();
+  const sorted = [...cats].sort((a, b) => a.y - b.y);
+  const hl = state === 'picking' ? cats[pickIndex % cats.length] : null;
+  for (const c of sorted) drawCat(c, c === hl);
+
+  if (state === 'picking') {
+    ctx.font = '700 26px Fredoka, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#333'; ctx.lineWidth = 6;
+    ctx.strokeText('🤖 Robot is choosing the tagger…', W/2, 90);
+    ctx.fillText('🤖 Robot is choosing the tagger…', W/2, 90);
+  }
+  for (const p of popups) {
+    ctx.globalAlpha = Math.min(1, p.t * 1.5);
+    ctx.font = '700 22px Fredoka, sans-serif'; ctx.textAlign = 'center';
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 5; ctx.strokeText(p.text, p.x, p.y);
+    ctx.fillStyle = p.color; ctx.fillText(p.text, p.x, p.y);
+  }
+  ctx.globalAlpha = 1;
+  drawJoystick();
+
+  // HUD
+  const st = document.getElementById('status');
+  if (state === 'play' && tagger) {
+    if (tagger.player) { st.textContent = tagger.freeze > 0 ? "You're IT! Get ready…" : "You're IT! Tag a robot!"; st.className = 'pill it'; }
+    else { st.textContent = 'Run! ' + tagger.name + ' is IT!'; st.className = 'pill'; }
+  } else if (state === 'picking') { st.textContent = 'Choosing…'; st.className = 'pill'; }
+  document.getElementById('timer').textContent = '⏱ ' + Math.ceil(timeLeft);
+}
+
+function loop(ts) {
+  const dt = Math.min(0.05, (ts - lastT) / 1000 || 0);
+  lastT = ts;
+  update(dt); draw();
+  requestAnimationFrame(loop);
+}
+makeCats();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

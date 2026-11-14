@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export function ShareButton({ slug, name, className }: { slug: string; name: string; className?: string }) {
   const [copied, setCopied] = useState(false);
   const share = async () => {
-    const url = `${window.location.origin}/play/${slug}`;
+    const url = `https://playshelf.org/play/${slug}`;
     const text = `Play "${name}" for free on Playshelf`;
     const canNative = typeof navigator.share === "function" && window.matchMedia("(pointer: coarse)").matches;
     if (canNative) {

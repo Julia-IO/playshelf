@@ -1,26 +1,42 @@
-# Playful Subject Safari
+# Playshelf
 
-I want to create a website where I will be sharing game and educational resources I create (mostly in Html) for anyone to use them. I want exactly the organization of the attached reference. In the left the subject / areas like Maths, Creativity, Music, English, Spanish, Physics, Biology, etc. When we clic we open each of the available games.  As this is for families and kids, the only difference with the reference is that I dont want so black background, but the style of the art should be similar too. Let me know if you have any doubt. I am uploading one of the resources so you can try out how to include it. This one would belong to both Music and Creativity (Dot Band).
+Playshelf is a collection of games and educational resources by Julia Díez, freely available for kids, families, and anyone who wants to learn through play. Resources run directly in the browser and are mostly built in HTML.
 
-This project was built with [Lovable](https://lovable.dev).
+**Production website:** [playshelf.org](https://playshelf.org)
 
-**Live app**: https://playful-subject-safari.lovable.app
+## Explore the shelf
+
+Browse resources by subject: Maths, Creativity, Music, English, Spanish, Physics, and Biology. The **By kids, for kids** category is for games created by children, focused on free play.
+
+Choose a subject, select a game, and open it to play. Resources can belong to more than one subject, and the Share button lets you share a game link.
+
+The first resource is **[Dot Band](https://playshelf.org/play/dot-band)**, a Music and Creativity game where colourful dots become melodies, rhythms, and layered sounds.
+
+## Adding a resource
+
+1. Place the standalone HTML game in `public/games/`, along with a thumbnail image.
+2. Add an entry in `src/data/resources.ts` with its name, slug, file and thumbnail paths, subjects, and other resource details.
+3. The game appears under its assigned subjects and opens at `/play/<slug>`.
+
+Games are displayed in an iframe, so each resource can keep its own interface and interactions.
+
+## Contact
+
+Questions or feedback: [hello@juliadiezlopez.com](mailto:hello@juliadiezlopez.com).
 
 ## Build with Lovable
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/9787d399-9124-48f2-a0c0-77f94d69c9ba).
+This project was built with [Lovable](https://lovable.dev). Continue developing it in the [Lovable editor](https://lovable.dev/projects/9787d399-9124-48f2-a0c0-77f94d69c9ba).
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+When Git sync is connected, changes made in Lovable sync to the repository, and changes pushed to the configured synced branch return to Lovable.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+The site uses React, TanStack Start, and Tailwind CSS. To work locally, install [Bun](https://bun.sh), then run:
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```

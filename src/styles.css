@@ -81,7 +81,7 @@
 
 :root {
   --radius: 1.25rem;
-  --background: oklch(0.9699 0.0192 80.12);
+  --background: oklch(0.9612 0.0218 80.5);
   --foreground: oklch(0.22 0.02 60);
   --card: oklch(0.99 0.01 85);
   --card-foreground: oklch(0.22 0.02 60);
@@ -175,3 +175,6 @@
 }
 @keyframes float-art { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
 @utility animate-float { animation: float-art 7s ease-in-out infinite; }
+@utility fade-edges {
+  mask-image: radial-gradient(ellipse 72% 72% at center, black 80%, transparent 100%);
+}

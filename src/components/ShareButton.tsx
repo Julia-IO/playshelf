@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export function ShareButton({ slug, name, className }: { slug: string; name: string; className?: string }) {
   const [copied, setCopied] = useState(false);
@@ -21,9 +22,9 @@ export function ShareButton({ slug, name, className }: { slug: string; name: str
     setTimeout(() => setCopied(false), 2500);
   };
   return (
-    <button onClick={share} className={cn("inline-flex items-center gap-1.5 rounded-full bg-secondary px-4 py-1.5 text-sm font-medium hover:bg-accent", className)}>
+    <Button variant="secondary" onClick={share} className={cn("shrink-0 gap-1.5 rounded-full px-3 sm:px-4", className)}>
       {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
       {copied ? "Link copied!" : "Share"}
-    </button>
+    </Button>
   );
 }

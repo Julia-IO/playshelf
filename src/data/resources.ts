@@ -17,15 +17,15 @@ export type Resource = {
 };
 
 export const subjects: Subject[] = [
-  { id: "maths", name: "Maths", emoji: "🔢" },
-  { id: "creativity", name: "Creativity", emoji: "🎨" },
-  { id: "music", name: "Music", emoji: "🎵" },
-  { id: "english", name: "English", emoji: "📖" },
-  { id: "spanish", name: "Spanish", emoji: "🗣️" },
-  { id: "physics", name: "Physics", emoji: "🧲" },
-  { id: "biology", name: "Biology", emoji: "🌱" },
   { id: "ai-tech", name: "AI & Tech", emoji: "🤖" },
+  { id: "biology", name: "Biology", emoji: "🌱" },
   { id: "by-kids", name: "By kids, for kids", emoji: "🧸" },
+  { id: "creativity", name: "Creativity", emoji: "🎨" },
+  { id: "english", name: "English", emoji: "📖" },
+  { id: "maths", name: "Maths", emoji: "🔢" },
+  { id: "music", name: "Music", emoji: "🎵" },
+  { id: "physics", name: "Physics", emoji: "🧲" },
+  { id: "spanish", name: "Spanish", emoji: "🗣️" },
 ];
 
 // To add a game: drop the .html file in public/games/ and add an entry here.

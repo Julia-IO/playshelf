@@ -26,7 +26,7 @@ Questions or feedback: [hello@juliadiezlopez.com](mailto:hello@juliadiezlopez.co
 
 ## Build with Lovable
 
-This project was built with [Lovable](https://lovable.dev). Continue developing it in the [Lovable editor](https://lovable.dev/projects/9787d399-9124-48f2-a0c0-77f94d69c9ba).
+This project was built with [Lovable](https://lovable.dev).
 
 When Git sync is connected, changes made in Lovable sync to the repository, and changes pushed to the configured synced branch return to Lovable.
 

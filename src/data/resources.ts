@@ -26,6 +26,19 @@ export const subjects: Subject[] = [
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
   {
+    slug: "cat-tag-vs-robot-cats",
+    name: "Cat Tag vs Robot Cats",
+    file: "/games/cat-tag-vs-robot-cats.html",
+    thumb: "/games/cat-tag-vs-robot-cats.jpg",
+    subjects: ["by-kids"],
+    ages: "4+",
+    dateAdded: "Nov 14, 2026",
+    tags: ["Cats", "Tag", "Free play"],
+    description:
+      "Play as an orange cat in a game of tag with robot cats. Run away, chase and tag the robots in 60-second rounds.",
+    color: "dot-yellow",
+  },
+  {
     slug: "dot-band",
     name: "Dot Band",
     file: "/games/dot-band.html",

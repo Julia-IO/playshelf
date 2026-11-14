@@ -54,7 +54,7 @@ function Index() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-background">
       <img src={heroArt} alt="Colourful glossy shapes, letters and numbers" width={1600} height={1104}
-        className="animate-float pointer-events-none absolute right-[-6%] top-1/2 hidden w-[68vw] max-w-[1200px] -translate-y-1/2 lg:block" />
+        className="animate-float mix-blend-multiply pointer-events-none absolute right-[-6%] top-1/2 hidden w-[68vw] max-w-[1200px] -translate-y-1/2 lg:block" />
 
       <div className={cn("panel-glass relative z-10 m-3 flex flex-col overflow-hidden rounded-3xl border border-border sm:m-5 lg:h-[calc(100vh-2.5rem)]",
         res ? "lg:w-[1100px]" : subject ? "lg:w-[680px]" : "lg:w-[330px]")}>

@@ -1,18 +1,17 @@
-# Add "Contribute to Playshelf"
+# Add "AI & Tech" category with the two Level Up games
+
+## Category name
+**AI & Tech** — short, clear for kids and parents, and leaves room for future coding/computers games. (Alternatives if you prefer: "Digital World", "Tech Lab".)
 
 ## What you'll see
-- A new **Contribute** pill button in the top bar, next to Contact.
-- Clicking it opens a small friendly window:
-  - Title: "Contribute to Playshelf"
-  - Text: "Every game and resource on Playshelf is free to use and share — at home, in class, anywhere. If you'd like to help keep the project growing, you're welcome to contribute. Thank you!"
-  - A **Support Playshelf** button linking to a contribution page (e.g. Ko-fi or Buy Me a Coffee), opening in a new tab.
-  - A close button.
-- The same short "free to use and share" line added under the "Made with love by Julia Díez" text in the left menu, with a "Contribute" link that opens the same window.
-
-## What I need from you
-- The link where people will contribute (for example a Ko-fi page you create for free). Until then the button uses a placeholder link I'll flag clearly.
+- New **AI & Tech** folder in the left menu (placed after Biology, before "By kids, for kids").
+- Two games inside, both labelled **10+**, dated Nov 14, 2026:
+  - **Level Up: AI & You** — tags: AI, Thinking, Online safety.
+  - **Level Up 2: How Apps Really Work** — tags: Apps, Coding, Technology.
+- Each gets a preview picture taken from its start screen, a short description written from the game content, and plays at its own page with Share working.
 
 ## Technical details
-- New `src/components/ContributeDialog.tsx` using the existing shadcn Dialog, semantic theme tokens only.
-- Contribution URL kept as one constant so it's easy to swap.
-- Wire into header and sidebar blurb in `src/routes/index.tsx`.
+- Copy both HTML files into `public/games/` (`level-up-ai-and-you.html`, `level-up-how-apps-work.html`).
+- Screenshot each start screen and store as asset thumbnails.
+- Add subject `{ id: "ai-tech", name: "AI & Tech" }` and two resource entries in `src/data/resources.ts`.
+- Add tests: both games are in `ai-tech` and have ages `10+`. Verify in browser that both play.

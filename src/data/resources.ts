@@ -1,3 +1,5 @@
+import aiYouThumbnail from "@/assets/level-up-ai-and-you.jpg.asset.json";
+import appsWorkThumbnail from "@/assets/level-up-how-apps-work.jpg.asset.json";
 import catTagThumbnail from "@/assets/cat-tag-vs-robot-cats.jpg.asset.json";
 
 export type Subject = { id: string; name: string; emoji: string };
@@ -22,11 +24,38 @@ export const subjects: Subject[] = [
   { id: "spanish", name: "Spanish", emoji: "🗣️" },
   { id: "physics", name: "Physics", emoji: "🧲" },
   { id: "biology", name: "Biology", emoji: "🌱" },
+  { id: "ai-tech", name: "AI & Tech", emoji: "🤖" },
   { id: "by-kids", name: "By kids, for kids", emoji: "🧸" },
 ];
 
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
+  {
+    slug: "level-up-ai-and-you",
+    name: "Level Up: AI & You",
+    file: "/games/level-up-ai-and-you.html",
+    thumb: aiYouThumbnail.url,
+    subjects: ["ai-tech"],
+    ages: "10+",
+    dateAdded: "Nov 14, 2026",
+    tags: ["AI", "Thinking", "Online safety"],
+    description:
+      "A team game where kids level up from AI rookie to scam-proof expert: spot what's real or fake, earn XP and learn to stay safe online.",
+    color: "dot-blue",
+  },
+  {
+    slug: "level-up-how-apps-work",
+    name: "Level Up 2: How Apps Really Work",
+    file: "/games/level-up-how-apps-work.html",
+    thumb: appsWorkThumbnail.url,
+    subjects: ["ai-tech"],
+    ages: "10+",
+    dateAdded: "Nov 14, 2026",
+    tags: ["Apps", "Coding", "Technology"],
+    description:
+      "Discover front end, back end, APIs and AI through a restaurant story, and learn how to talk to an AI that writes code for you.",
+    color: "dot-yellow",
+  },
   {
     slug: "cat-tag-vs-robot-cats",
     name: "Cat Tag vs Robot Cats",

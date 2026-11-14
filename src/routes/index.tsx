@@ -41,6 +41,7 @@ function Row({ active, onClick, icon, label, count }: { active: boolean; onClick
 function Index() {
   const [subject, setSubject] = useState<string | null>(null);
   const [slug, setSlug] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
   const list = subject ? resourcesFor(subject) : [];
   const res = resources.find((r) => r.slug === slug && list.includes(r));
 
@@ -62,7 +63,12 @@ function Index() {
           <Link to="/" onClick={() => { setSubject(null); setSlug(null); }} className="text-2xl font-bold tracking-tight">
             playshelf<span className="text-dot-red">.</span>
           </Link>
-          <a href="mailto:hello@example.com" className="rounded-full bg-secondary px-4 py-1.5 text-sm font-medium hover:bg-accent">Contact</a>
+          <button
+            onClick={async () => { await navigator.clipboard.writeText("hello@juliadiezlopez.com").catch(() => {}); setCopied(true); setTimeout(() => setCopied(false), 2500); }}
+            title="hello@juliadiezlopez.com"
+            className="rounded-full bg-secondary px-4 py-1.5 text-sm font-medium hover:bg-accent">
+            {copied ? "Email copied!" : "Contact"}
+          </button>
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col lg:flex-row">

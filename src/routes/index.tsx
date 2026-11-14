@@ -5,6 +5,7 @@ import heroArt from "@/assets/hero-art.jpg";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ShareButton";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,18 +25,18 @@ const dotColors = ["bg-dot-red", "bg-dot-yellow", "bg-dot-blue"];
 
 function Row({ active, onClick, icon, label, count }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; count?: number }) {
   return (
-    <button
+    <Button variant="ghost"
       onClick={onClick}
       className={cn(
-        "group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-[15px] transition-colors",
+        "group flex h-auto w-full min-w-0 items-center justify-start gap-3 whitespace-normal rounded-xl px-3 py-2 text-left text-[15px] transition-colors",
         active ? "bg-row-active text-row-active-foreground" : "hover:bg-accent",
       )}
     >
       {icon}
-      <span className="flex-1 truncate">{label}</span>
-      {count !== undefined && <span className={cn("text-xs", active ? "opacity-70" : "text-muted-foreground")}>{count}</span>}
-      <ChevronRight className={cn("h-4 w-4", active ? "" : "text-muted-foreground")} />
-    </button>
+      <span className="min-w-0 flex-1 break-words lg:truncate">{label}</span>
+      {count !== undefined && <span className={cn("shrink-0 text-xs", active ? "opacity-70" : "text-muted-foreground")}>{count}</span>}
+      <ChevronRight className={cn("h-4 w-4 shrink-0", active ? "" : "text-muted-foreground")} />
+    </Button>
   );
 }
 
@@ -93,14 +94,14 @@ function Index() {
                 <p className="px-3 py-2 text-sm text-muted-foreground">New games coming soon ✨</p>
               ) : list.map((r, i) => (
                 <Row key={r.slug} active={slug === r.slug} label={r.name} onClick={() => setSlug(r.slug)}
-                  icon={<span className={cn("h-5 w-5 rounded-full", dotColors[i % 3])} />} />
+                  icon={<span className={cn("h-5 w-5 shrink-0 rounded-full", dotColors[i % 3])} />} />
               ))}
             </div>
           )}
 
           {/* Detail */}
           {res && (
-            <div className="flex-1 overflow-y-auto border-t border-border p-6 lg:border-t-0">
+            <div className="min-w-0 flex-1 overflow-y-auto border-t border-border p-6 lg:border-t-0">
               <Link to="/play/$slug" params={{ slug: res.slug }} className="block overflow-hidden rounded-2xl border border-border">
                 <img src={res.thumb} alt={res.name} className="aspect-[4/3] w-full object-cover transition-transform hover:scale-[1.02]" />
               </Link>
@@ -108,7 +109,7 @@ function Index() {
                 {[["Name", res.name], ["Ages", res.ages], ["Date added", res.dateAdded],
                   ["Subjects", res.subjects.map((id) => subjects.find((s) => s.id === id)?.name).join(", ")],
                   ["Tags", res.tags.join(", ")]].map(([k, v]) => (
-                  <div key={k} className="flex justify-between gap-4"><dt>{k}</dt><dd className="text-right text-muted-foreground">{v}</dd></div>
+                  <div key={k} className="grid grid-cols-[auto_minmax(0,1fr)] gap-4"><dt>{k}</dt><dd className="min-w-0 break-words text-right text-muted-foreground">{v}</dd></div>
                 ))}
               </dl>
               <h3 className="mt-5 text-sm">Description</h3>

@@ -29,3 +29,4 @@ use the editor.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
 - Games are static HTML files in public/games/ registered in src/data/resources.ts; played via /play/$slug iframe. Why: adding a game needs no backend.
+- Game headers place the title above a two-column controls grid on phones, with a shrinking title in the desktop row; long names must not squeeze navigation or sharing controls.

@@ -20,6 +20,7 @@ export const subjects: Subject[] = [
   { id: "spanish", name: "Spanish", emoji: "🗣️" },
   { id: "physics", name: "Physics", emoji: "🧲" },
   { id: "biology", name: "Biology", emoji: "🌱" },
+  { id: "by-kids", name: "By kids, for kids", emoji: "🧸" },
 ];
 
 // To add a game: drop the .html file in public/games/ and add an entry here.

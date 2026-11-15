@@ -14,13 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      game_ratings: {
+        Row: {
+          game_slug: string
+          stars: number
+          updated_at: string
+          voter_id: string
+        }
+        Insert: {
+          game_slug: string
+          stars: number
+          updated_at?: string
+          voter_id: string
+        }
+        Update: {
+          game_slug?: string
+          stars?: number
+          updated_at?: string
+          voter_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      game_rating_summary: {
+        Args: never
+        Returns: {
+          average: number
+          count: number
+          slug: string
+        }[]
+      }
+      rate_game: {
+        Args: { p_slug: string; p_stars: number; p_voter: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

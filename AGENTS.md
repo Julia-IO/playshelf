@@ -33,3 +33,4 @@ use the editor.
 - Multi-file HTML games live in their own public/games/ subdirectory; host bundled media through asset pointers and map original paths in the game to preserve instrument loading without repository binaries.
 - Shared game ratings use aggregate-only public reads and validated database voting functions, with a random browser capability for editable votes; this avoids collecting child identities or exposing individual votes.
 - GameRating is shared by catalog details and a separate play-header row, so rating controls never squeeze game navigation on phones.
+- Keep rating display precedence and fractional fill in a browser-safe helper shared with tests; this separates the visual score from vote storage and validation.

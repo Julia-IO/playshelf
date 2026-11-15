@@ -106,7 +106,7 @@ function Index() {
           {res && (
             <div className="min-w-0 flex-1 overflow-y-auto border-t border-border p-6 lg:border-t-0">
               <Link to="/play/$slug" params={{ slug: res.slug }} className="block overflow-hidden rounded-2xl border border-border">
-                <img src={res.thumb} alt={res.name} className="aspect-[4/3] w-full object-cover transition-transform hover:scale-[1.02]" />
+                <img src={res.thumb} alt={res.name} className={cn("w-full object-cover transition-transform hover:scale-[1.02]", res.slug === "mission-order-of-operations" ? "h-auto" : "aspect-[4/3]")} />
               </Link>
               <dl className="mt-5 space-y-2 text-sm">
                 {[["Name", res.name], ["Ages", res.ages], ["Date added", res.dateAdded],

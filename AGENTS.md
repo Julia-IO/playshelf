@@ -32,6 +32,7 @@ use the editor.
 - Game headers place the title above a two-column controls grid on phones, with a shrinking title in the desktop row; long names must not squeeze navigation or sharing controls.
 - Multi-file HTML games live in their own public/games/ subdirectory; host bundled media through asset pointers and map original paths in the game to preserve instrument loading without repository binaries.
 - Shared game ratings use aggregate-only public reads and validated database voting functions, with a random browser capability for editable votes; this avoids collecting child identities or exposing individual votes.
+- When adding a playable resource, update the database voting allowlist through a migration and test catalog coverage; client-only registration otherwise leaves the new game unable to accept ratings.
 - GameRating is shared by catalog details and a separate play-header row, so rating controls never squeeze game navigation on phones.
 - Keep community stars read-only and personal voting in a separately revealed group; browser-safe display and fractional-fill helpers shared with tests prevent mixing the two scores.
 - Homepage sharing uses a compressed 1200×630 JPEG rendition of its artwork, hosted through an asset pointer and tagged only in the leaf route; this avoids oversized downloads and inherited game previews.

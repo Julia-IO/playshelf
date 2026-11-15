@@ -1,10 +1,18 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { ratingSchema } from "@/lib/ratings-schema";
 import { resources } from "@/data/resources";
 import { displayedRating, starFill } from "@/lib/rating-display";
 
 const voter = "de588580-bc67-4fa9-96bc-a7a082d19892";
 describe("Game star ratings", () => {
+  it("allows the maths game in the database voting rule alongside every current game", () => {
+    const sql = readFileSync(new URL("../../drizzle/migrations/0001_allow_maths_game_ratings.sql", import.meta.url), "utf8");
+    const allowed = sql.match(/p_slug NOT IN \(([^)]+)\)/)?.[1].match(/'([^']+)'/g)?.map((slug) => slug.slice(1, -1)) ?? [];
+    expect(allowed).toContain("mission-order-of-operations");
+    expect(resources.every((game) => allowed.includes(game.slug))).toBe(true);
+    expect(allowed).not.toContain("missing");
+  });
   it("starts personal voting with five empty stars, independently of the community", () => {
     expect(displayedRating(0, 0)).toBe(0);
     expect([1, 2, 3, 4, 5].map((star) => starFill(displayedRating(0, 0), star))).toEqual([0, 0, 0, 0, 0]);

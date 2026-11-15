@@ -15,3 +15,7 @@
 - [x] Create a gentle seamless animation of the sharing artwork with stationary lettering.
 - [x] Host the clip and add Apple Messages sharing tags without changing the still image.
 - [x] Verify video format, image fallback, and homepage metadata.
+
+# Maths rating repair
+- [x] Reproduce the failed vote and include the maths game in the database voting rules.
+- [ ] Add regression coverage and verify a saved vote through the live page.

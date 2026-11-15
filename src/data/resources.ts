@@ -1,6 +1,6 @@
 import catTagThumbnail from "@/assets/cat-tag-vs-robot-cats.jpg.asset.json";
 import beatLabThumbnail from "@/assets/beat-lab-preview.png.asset.json";
-import operationsThumbnail from "@/assets/mission-order-of-operations-preview.png.asset.json";
+import operationsThumbnail from "@/assets/order-of-operations-cover.png.asset.json";
 
 export type Subject = { id: string; name: string; emoji: string };
 export type Resource = {

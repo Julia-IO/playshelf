@@ -1,6 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 
+describe("Mission: Order of Operations", () => {
+  it("belongs to Maths", () => {
+    expect(resourcesFor("maths").map((game) => game.slug)).toContain("mission-order-of-operations");
+    expect(resources.find((game) => game.slug === "mission-order-of-operations")?.subjects).toEqual(["maths"]);
+  });
+
+  it("has the requested 8+ age label", () => {
+    expect(resources.find((game) => game.slug === "mission-order-of-operations")?.ages).toBe("8+");
+  });
+});
+
 describe("Cat Tag vs Robot Cats", () => {
   it("belongs to By kids, for kids", () => {
     expect(resourcesFor("by-kids").map((game) => game.slug)).toContain("cat-tag-vs-robot-cats");

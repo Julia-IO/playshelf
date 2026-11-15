@@ -13,6 +13,13 @@ describe("Game star ratings", () => {
     expect(resources.every((game) => allowed.includes(game.slug))).toBe(true);
     expect(allowed).not.toContain("missing");
   });
+  it("allows saved maths ratings in the table constraint alongside every current game", () => {
+    const sql = readFileSync("drizzle/migrations/0002_allow_maths_rating_rows.sql", "utf8");
+    const allowed = sql.match(/CHECK \(game_slug IN \(([^)]+)\)/)?.[1].match(/'([^']+)'/g)?.map((slug) => slug.slice(1, -1)) ?? [];
+    expect(allowed).toContain("mission-order-of-operations");
+    expect(resources.every((game) => allowed.includes(game.slug))).toBe(true);
+    expect(allowed).not.toContain("missing");
+  });
   it("starts personal voting with five empty stars, independently of the community", () => {
     expect(displayedRating(0, 0)).toBe(0);
     expect([1, 2, 3, 4, 5].map((star) => starFill(displayedRating(0, 0), star))).toEqual([0, 0, 0, 0, 0]);

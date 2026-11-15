@@ -1,5 +1,5 @@
-export function displayedRating(average: number | undefined, mine: number, preview: number) {
-  return preview || mine || average || 0;
+export function displayedRating(mine: number, preview: number) {
+  return preview || mine || 0;
 }
 
 export function starFill(score: number, stars: number) {

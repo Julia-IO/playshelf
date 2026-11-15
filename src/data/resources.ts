@@ -1,4 +1,5 @@
 import catTagThumbnail from "@/assets/cat-tag-vs-robot-cats.jpg.asset.json";
+import beatLabThumbnail from "@/assets/beat-lab.jpg.asset.json";
 
 export type Subject = { id: string; name: string; emoji: string };
 export type Resource = {
@@ -28,6 +29,19 @@ export const subjects: Subject[] = [
 
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
+  {
+    slug: "beat-lab",
+    name: "Beat Lab",
+    file: "/games/beat-lab/index.html",
+    thumb: beatLabThumbnail.url,
+    subjects: ["music"],
+    ages: "8+",
+    dateAdded: "Nov 15, 2026",
+    tags: ["Beats", "Instruments", "Recording", "Mixing"],
+    description:
+      "Build your own song with drum beats, bass lines, melodies and your voice. Explore instruments, arrange tracks, mix sounds and complete musical missions.",
+    color: "dot-blue",
+  },
   {
     slug: "cat-tag-vs-robot-cats",
     name: "Cat Tag vs Robot Cats",

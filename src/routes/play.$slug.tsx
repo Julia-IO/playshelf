@@ -42,7 +42,7 @@ function Play() {
         </Button>
         </div>
       </header>
-      <iframe id="game" src={r.file} title={r.name} className="mx-3 mb-3 min-h-0 flex-1 rounded-2xl border border-border bg-card" allow="autoplay; fullscreen" />
+      <iframe id="game" src={r.file} title={r.name} className="mx-3 mb-3 min-h-0 flex-1 rounded-2xl border border-border bg-card" allow={r.slug === "beat-lab" ? "autoplay; fullscreen; microphone" : "autoplay; fullscreen"} />
     </div>
   );
 }

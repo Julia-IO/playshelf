@@ -30,3 +30,4 @@ use the editor.
 <!-- LOVABLE:END -->
 - Games are static HTML files in public/games/ registered in src/data/resources.ts; played via /play/$slug iframe. Why: adding a game needs no backend.
 - Game headers place the title above a two-column controls grid on phones, with a shrinking title in the desktop row; long names must not squeeze navigation or sharing controls.
+- Multi-file HTML games live in their own public/games/ subdirectory; host bundled media through asset pointers and map original paths in the game to preserve instrument loading without repository binaries.

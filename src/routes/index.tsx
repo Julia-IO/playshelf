@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ChevronRight, Folder, FolderOpen, Play } from "lucide-react";
 import heroArt from "@/assets/hero-art.jpg";
 import sharingImage from "@/assets/playshelf-sharing.jpg.asset.json";
+import sharingVideo from "@/assets/playshelf-sharing-loop.mp4.asset.json";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ShareButton";
@@ -25,6 +26,11 @@ export const Route = createFileRoute("/")({
       { property: "og:image:height", content: "630" },
       { property: "og:image:type", content: "image/jpeg" },
       { property: "og:image:alt", content: "Playshelf — free games and learning for curious kids, with colourful letters, numbers and musical shapes." },
+      { property: "og:video", content: `https://playshelf.org${sharingVideo.url}` },
+      { property: "og:video:secure_url", content: `https://playshelf.org${sharingVideo.url}` },
+      { property: "og:video:type", content: "video/mp4" },
+      { property: "og:video:width", content: "1200" },
+      { property: "og:video:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: `https://playshelf.org${sharingImage.url}` },
     ],

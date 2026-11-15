@@ -35,3 +35,4 @@ use the editor.
 - GameRating is shared by catalog details and a separate play-header row, so rating controls never squeeze game navigation on phones.
 - Keep community stars read-only and personal voting in a separately revealed group; browser-safe display and fractional-fill helpers shared with tests prevent mixing the two scores.
 - Homepage sharing uses a compressed 1200×630 JPEG rendition of its artwork, hosted through an asset pointer and tagged only in the leaf route; this avoids oversized downloads and inherited game previews.
+- Animated homepage sharing uses a silent, faststart H.264 clip through an asset pointer and leaf-only og:video tags while preserving the JPEG fallback; this supports Apple Messages without replacing other apps' still previews.

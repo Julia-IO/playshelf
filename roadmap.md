@@ -12,6 +12,6 @@
 - [x] Verify the homepage sharing tags and image delivery.
 
 # Animated sharing preview
-- [ ] Create a gentle seamless animation of the sharing artwork with stationary lettering.
-- [ ] Host the clip and add Apple Messages sharing tags without changing the still image.
+- [x] Create a gentle seamless animation of the sharing artwork with stationary lettering.
+- [x] Host the clip and add Apple Messages sharing tags without changing the still image.
 - [ ] Verify video format, image fallback, and homepage metadata.

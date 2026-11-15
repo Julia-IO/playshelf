@@ -15,6 +15,13 @@
       "when": 1794752084184,
       "tag": "0001_allow_maths_game_ratings",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794752158281,
+      "tag": "0002_allow_maths_rating_rows",
+      "breakpoints": true
     }
   ]
 }

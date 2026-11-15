@@ -1,0 +1,2 @@
+ALTER TABLE public.game_ratings DROP CONSTRAINT game_ratings_game_slug_check;
+ALTER TABLE public.game_ratings ADD CONSTRAINT game_ratings_game_slug_check CHECK (game_slug IN ('beat-lab','cat-tag-vs-robot-cats','dot-band','mission-order-of-operations'));

@@ -51,7 +51,7 @@ export function GameRating({ slug, compact = false }: { slug: string; compact?: 
 
   return (
     <section aria-label="Game rating" className={cn("min-w-0", compact ? "flex flex-wrap items-center justify-center gap-x-3 gap-y-1" : "mt-5 border-t border-border pt-4")}>
-      <p className={cn("text-xs font-medium", compact ? "w-full text-center" : "mb-1")}>{mine ? "Your stars" : summary ? "Community stars" : "Rate this game"}</p>
+      <p className={cn("text-xs font-medium", compact ? "w-full text-center" : "mb-1")}>Rate this game</p>
       <div className="flex shrink-0 items-center" role="group" aria-label="Rate this game">
         {[1, 2, 3, 4, 5].map((stars) => (
           <Button key={stars} variant="ghost" size="icon" disabled={busy}
@@ -69,8 +69,8 @@ export function GameRating({ slug, compact = false }: { slug: string; compact?: 
           </Button>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground">
-        {summary ? `${summary.average.toFixed(1)} / 5 · ${summary.count} ${summary.count === 1 ? "rating" : "ratings"}` : data.available ? "No ratings yet" : "Ratings temporarily unavailable"}
+      <p className={cn("text-xs text-muted-foreground", compact && "w-full text-center")}>
+        {summary ? `Community average: ${summary.average.toFixed(1)} / 5 · ${summary.count} ${summary.count === 1 ? "vote" : "votes"} in total` : data.available ? "No community votes yet" : "Ratings temporarily unavailable"}
       </p>
       <p role="status" aria-live="polite" className={cn("text-xs text-muted-foreground", compact ? "w-full text-center" : "mt-1", message ? "" : "sr-only")}>
         {busy ? "Saving your stars…" : message}

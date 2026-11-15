@@ -34,3 +34,4 @@ use the editor.
 - Shared game ratings use aggregate-only public reads and validated database voting functions, with a random browser capability for editable votes; this avoids collecting child identities or exposing individual votes.
 - GameRating is shared by catalog details and a separate play-header row, so rating controls never squeeze game navigation on phones.
 - Keep community stars read-only and personal voting in a separately revealed group; browser-safe display and fractional-fill helpers shared with tests prevent mixing the two scores.
+- Homepage sharing uses a compressed 1200×630 JPEG rendition of its artwork, hosted through an asset pointer and tagged only in the leaf route; this avoids oversized downloads and inherited game previews.

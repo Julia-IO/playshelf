@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronRight, Folder, FolderOpen, Play } from "lucide-react";
 import heroArt from "@/assets/hero-art.jpg";
+import sharingImage from "@/assets/playshelf-sharing.jpg.asset.json";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ShareButton";
@@ -18,8 +19,16 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Playshelf — free games for curious kids" },
       { property: "og:description", content: "Free HTML games and educational resources by subject, for families and kids." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://playshelf.org" },
+      { property: "og:image", content: `https://playshelf.org${sharingImage.url}` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:alt", content: "Playshelf — free games and learning for curious kids, with colourful letters, numbers and musical shapes." },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `https://playshelf.org${sharingImage.url}` },
     ],
+    links: [{ rel: "canonical", href: "https://playshelf.org" }],
   }),
   component: Index,
 });

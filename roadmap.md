@@ -6,3 +6,7 @@
 # Mission: Order of Operations
 - [x] Add uploaded game under Maths for ages 8+ with a start-screen picture.
 - [x] Verify catalog and gameplay on phones and computers; run resource tests.
+
+# Homepage sharing preview
+- [x] Create and host a 1200×630 sharing picture using the existing homepage artwork.
+- [x] Verify the homepage sharing tags and image delivery.

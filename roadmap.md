@@ -14,4 +14,4 @@
 # Animated sharing preview
 - [x] Create a gentle seamless animation of the sharing artwork with stationary lettering.
 - [x] Host the clip and add Apple Messages sharing tags without changing the still image.
-- [ ] Verify video format, image fallback, and homepage metadata.
+- [x] Verify video format, image fallback, and homepage metadata.

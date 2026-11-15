@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resources, resourcesFor } from "@/data/resources";
+import { resources, resourcesFor, subjects } from "@/data/resources";
 
 describe("Cat Tag vs Robot Cats", () => {
   it("belongs to By kids, for kids", () => {
@@ -12,11 +12,8 @@ describe("Cat Tag vs Robot Cats", () => {
   });
 });
 describe("AI & Tech", () => {
-  const slugs = ["level-up-ai-and-you", "level-up-how-apps-work"];
-  it("contains both Level Up games", () => {
-    expect(resourcesFor("ai-tech").map((g) => g.slug)).toEqual(expect.arrayContaining(slugs));
-  });
-  it("labels both games 10+", () => {
-    for (const s of slugs) expect(resources.find((g) => g.slug === s)?.ages).toBe("10+");
+  it("stays in the menu with no games", () => {
+    expect(subjects.map((s) => s.id)).toContain("ai-tech");
+    expect(resourcesFor("ai-tech")).toEqual([]);
   });
 });

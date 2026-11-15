@@ -69,6 +69,8 @@
   --color-dot-red: var(--dot-red);
   --color-dot-yellow: var(--dot-yellow);
   --color-dot-blue: var(--dot-blue);
+  --color-rating-fill: var(--rating-fill);
+  --color-rating-ink: var(--rating-ink);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -106,6 +108,8 @@
   --dot-red: oklch(0.62 0.21 28);
   --dot-yellow: oklch(0.84 0.16 85);
   --dot-blue: oklch(0.52 0.19 260);
+  --rating-fill: oklch(0.86 0.15 88);
+  --rating-ink: oklch(0.43 0.07 65);
   --shadow-panel: 0 30px 80px -30px oklch(0.4 0.08 60 / 35%), 0 2px 0 oklch(1 0 0 / 70%) inset;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -123,6 +127,8 @@
 }
 
 .dark {
+  --rating-fill: oklch(0.8 0.14 88);
+  --rating-ink: oklch(0.9 0.1 88);
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
@@ -177,4 +183,11 @@
 @utility animate-float { animation: float-art 7s ease-in-out infinite; }
 @utility fade-edges {
   mask-image: radial-gradient(ellipse 72% 72% at center, black 80%, transparent 100%);
+}
+
+.sketch-star:nth-child(odd) svg { transform: rotate(-7deg); }
+.sketch-star:nth-child(even) svg { transform: rotate(6deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .sketch-star svg { transition: transform 160ms ease; }
+  .sketch-star:hover svg { transform: rotate(0deg) scale(1.08); }
 }

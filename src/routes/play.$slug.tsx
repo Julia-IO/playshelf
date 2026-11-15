@@ -3,11 +3,14 @@ import { ArrowLeft, Maximize } from "lucide-react";
 import { resources } from "@/data/resources";
 import { ShareButton } from "@/components/ShareButton";
 import { Button } from "@/components/ui/button";
+import { GameRating } from "@/components/GameRating";
+import { ratingsQueryOptions } from "@/lib/ratings.functions";
 
 export const Route = createFileRoute("/play/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params, context }) => {
     const resource = resources.find((r) => r.slug === params.slug);
     if (!resource) throw notFound();
+    await context.queryClient.ensureQueryData(ratingsQueryOptions);
     return resource;
   },
   head: ({ loaderData }) => ({
@@ -42,6 +45,9 @@ function Play() {
         </Button>
         </div>
       </header>
+      <div className="shrink-0 px-3 pb-2">
+        <GameRating key={r.slug} slug={r.slug} compact />
+      </div>
       <iframe id="game" src={r.file} title={r.name} className="mx-3 mb-3 min-h-0 flex-1 rounded-2xl border border-border bg-card" allow={r.slug === "beat-lab" ? "autoplay; fullscreen; microphone" : "autoplay; fullscreen"} />
     </div>
   );

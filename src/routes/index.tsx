@@ -6,8 +6,11 @@ import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ShareButton";
 import { Button } from "@/components/ui/button";
+import { GameRating } from "@/components/GameRating";
+import { ratingsQueryOptions } from "@/lib/ratings.functions";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(ratingsQueryOptions),
   head: () => ({
     meta: [
       { title: "Playshelf — free games & learning resources for kids" },
@@ -114,6 +117,7 @@ function Index() {
               </dl>
               <h3 className="mt-5 text-sm">Description</h3>
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{res.description}</p>
+              <GameRating key={res.slug} slug={res.slug} />
               <div className="mt-5 flex gap-2">
                 <ShareButton slug={res.slug} name={res.name} />
                 <Link to="/play/$slug" params={{ slug: res.slug }} className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-1.5 text-sm font-medium text-primary-foreground"><Play className="h-4 w-4" />Play</Link>

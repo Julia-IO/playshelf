@@ -18,4 +18,4 @@
 
 # Maths rating repair
 - [x] Reproduce the failed vote and include the maths game in the database voting rules.
-- [ ] Add regression coverage and verify a saved vote through the live page.
+- [x] Add regression coverage and verify a saved vote through the live page; remove the temporary test vote.

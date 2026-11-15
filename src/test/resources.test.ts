@@ -17,3 +17,13 @@ describe("AI & Tech", () => {
     expect(resourcesFor("ai-tech")).toEqual([]);
   });
 });
+describe("Beat Lab", () => {
+  it("belongs to Music", () => {
+    expect(resourcesFor("music").map((game) => game.slug)).toContain("beat-lab");
+    expect(resources.find((game) => game.slug === "beat-lab")?.subjects).toEqual(["music"]);
+  });
+
+  it("has the requested 8+ age label", () => {
+    expect(resources.find((game) => game.slug === "beat-lab")?.ages).toBe("8+");
+  });
+});

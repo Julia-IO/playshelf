@@ -9,4 +9,4 @@
 
 # Homepage sharing preview
 - [x] Create and host a 1200×630 sharing picture using the existing homepage artwork.
-- [ ] Verify the homepage sharing tags and image delivery.
+- [x] Verify the homepage sharing tags and image delivery.

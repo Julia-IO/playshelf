@@ -1,5 +1,6 @@
 import catTagThumbnail from "@/assets/cat-tag-vs-robot-cats.jpg.asset.json";
 import beatLabThumbnail from "@/assets/beat-lab-preview.png.asset.json";
+import operationsThumbnail from "@/assets/mission-order-of-operations-preview.png.asset.json";
 
 export type Subject = { id: string; name: string; emoji: string };
 export type Resource = {
@@ -29,6 +30,19 @@ export const subjects: Subject[] = [
 
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
+  {
+    slug: "mission-order-of-operations",
+    name: "Mission: Order of Operations",
+    file: "/games/mission-order-of-operations.html",
+    thumb: operationsThumbnail.url,
+    subjects: ["maths"],
+    ages: "8+",
+    dateAdded: "Nov 15, 2026",
+    tags: ["Arithmetic", "Order of operations", "Brackets"],
+    description:
+      "Solve number puzzles in the right order and earn stars. Explore three levels of addition, subtraction, multiplication, division and brackets, with step-by-step hints and extra practice.",
+    color: "dot-yellow",
+  },
   {
     slug: "beat-lab",
     name: "Beat Lab",

@@ -48,3 +48,13 @@ describe("Little Town", () => {
     expect(resources.find((game) => game.slug === "little-town")?.ages).toBe("3+");
   });
 });
+describe("Splat! Art Studio", () => {
+  it("belongs to Creativity", () => {
+    expect(resourcesFor("creativity").map((game) => game.slug)).toContain("splat-art-studio");
+    expect(resources.find((game) => game.slug === "splat-art-studio")?.subjects).toEqual(["creativity"]);
+  });
+
+  it("has the requested 7+ age label", () => {
+    expect(resources.find((game) => game.slug === "splat-art-studio")?.ages).toBe("7+");
+  });
+});

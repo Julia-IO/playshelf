@@ -31,6 +31,19 @@ export const subjects: Subject[] = [
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
   {
+    slug: "splat-art-studio",
+    name: "Splat! Art Studio",
+    file: "/games/splat-art-studio.html",
+    thumb: "/games/splat-art-studio.jpg",
+    subjects: ["creativity"],
+    ages: "7+",
+    dateAdded: "Nov 16, 2026",
+    tags: ["Painting", "Art history", "Famous artists", "English & Spanish"],
+    description:
+      "Visit the studios of great artists with Splat the ink blot. Hear their stories, then paint like cave painters, Seurat, Van Gogh, Mondrian and Kandinsky, hang your work in your own book and guess who painted it. Playable in English and Spanish.",
+    color: "dot-blue",
+  },
+  {
     slug: "little-town",
     name: "Little Town",
     file: "/games/little-town.html",

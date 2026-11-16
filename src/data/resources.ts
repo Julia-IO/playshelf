@@ -31,6 +31,19 @@ export const subjects: Subject[] = [
 // To add a game: drop the .html file in public/games/ and add an entry here.
 export const resources: Resource[] = [
   {
+    slug: "little-town",
+    name: "Little Town",
+    file: "/games/little-town.html",
+    thumb: "/games/little-town.jpg",
+    subjects: ["creativity"],
+    ages: "3+",
+    dateAdded: "Nov 16, 2026",
+    tags: ["Town", "Animals", "Vehicles", "Free play"],
+    description:
+      "Explore a little picture-book town that comes alive when you tap. Drag the animals, people and vehicles around, ring the school bell, switch day to night and find what happens around every corner.",
+    color: "dot-yellow",
+  },
+  {
     slug: "mission-order-of-operations",
     name: "Mission: Order of Operations",
     file: "/games/mission-order-of-operations.html",

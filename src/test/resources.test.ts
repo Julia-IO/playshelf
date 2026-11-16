@@ -38,3 +38,13 @@ describe("Beat Lab", () => {
     expect(resources.find((game) => game.slug === "beat-lab")?.ages).toBe("8+");
   });
 });
+describe("Little Town", () => {
+  it("belongs to Creativity", () => {
+    expect(resourcesFor("creativity").map((game) => game.slug)).toContain("little-town");
+    expect(resources.find((game) => game.slug === "little-town")?.subjects).toEqual(["creativity"]);
+  });
+
+  it("has the requested 3+ age label", () => {
+    expect(resources.find((game) => game.slug === "little-town")?.ages).toBe("3+");
+  });
+});

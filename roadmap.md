@@ -21,5 +21,5 @@
 - [x] Add regression coverage and verify a saved vote through the live page; remove the temporary test vote.
 
 # Little Town rating support
-- [ ] Add little-town to both database rating rules while preserving existing slugs.
-- [ ] Update regression tests to use the new migration and verify database coverage.
+- [x] Add little-town to both database rating rules while preserving existing slugs.
+- [x] Update regression tests to use the new migration and verify database coverage.

@@ -25,5 +25,5 @@
 - [x] Update regression tests to use the new migration and verify database coverage.
 
 # Splat! Art Studio rating support
-- [ ] Add splat-art-studio to both database rating rules while preserving existing slugs.
-- [ ] Update both regression tests to the new migration and verify database coverage.
+- [x] Add splat-art-studio to both database rating rules while preserving existing slugs.
+- [x] Update both regression tests to the new migration and verify database coverage.

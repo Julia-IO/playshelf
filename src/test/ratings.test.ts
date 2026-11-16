@@ -6,17 +6,19 @@ import { displayedRating, starFill } from "@/lib/rating-display";
 
 const voter = "de588580-bc67-4fa9-96bc-a7a082d19892";
 describe("Game star ratings", () => {
-  it("allows the maths game in the database voting rule alongside every current game", () => {
-    const sql = readFileSync("drizzle/migrations/0001_allow_maths_game_ratings.sql", "utf8");
+  it("allows Little Town in the database voting rule alongside every current game", () => {
+    const sql = readFileSync("drizzle/migrations/0003_allow_little_town_ratings.sql", "utf8");
     const allowed = sql.match(/p_slug NOT IN \(([^)]+)\)/)?.[1]?.match(/'([^']+)'/g)?.map((slug) => slug.slice(1, -1)) ?? [];
     expect(allowed).toContain("mission-order-of-operations");
+    expect(allowed).toContain("little-town");
     expect(resources.every((game) => allowed.includes(game.slug))).toBe(true);
     expect(allowed).not.toContain("missing");
   });
-  it("allows saved maths ratings in the table constraint alongside every current game", () => {
-    const sql = readFileSync("drizzle/migrations/0002_allow_maths_rating_rows.sql", "utf8");
+  it("allows saved Little Town ratings in the table constraint alongside every current game", () => {
+    const sql = readFileSync("drizzle/migrations/0003_allow_little_town_ratings.sql", "utf8");
     const allowed = sql.match(/CHECK \(game_slug IN \(([^)]+)\)/)?.[1]?.match(/'([^']+)'/g)?.map((slug) => slug.slice(1, -1)) ?? [];
     expect(allowed).toContain("mission-order-of-operations");
+    expect(allowed).toContain("little-town");
     expect(resources.every((game) => allowed.includes(game.slug))).toBe(true);
     expect(allowed).not.toContain("missing");
   });

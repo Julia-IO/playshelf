@@ -23,3 +23,7 @@
 # Little Town rating support
 - [x] Add little-town to both database rating rules while preserving existing slugs.
 - [x] Update regression tests to use the new migration and verify database coverage.
+
+# Splat! Art Studio rating support
+- [x] Add splat-art-studio to both database rating rules while preserving existing slugs.
+- [x] Update both regression tests to the new migration and verify database coverage.

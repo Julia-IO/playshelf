@@ -30,4 +30,4 @@
 
 # Save-to-device guide
 - [x] Add a quiet homepage link and on-demand Safari/Chrome instructions for phones and computers.
-- [ ] Verify the guide opens, switches browser instructions, closes, and fits phone and computer screens.
+- [x] Verify the guide opens, switches browser instructions, closes, and fits phone and computer screens.

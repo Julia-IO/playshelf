@@ -7,6 +7,7 @@ import sharingVideo from "@/assets/playshelf-sharing-loop.mp4.asset.json";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ShareButton";
+import { SaveDeviceGuide } from "@/components/SaveDeviceGuide";
 import { Button } from "@/components/ui/button";
 import { GameRating } from "@/components/GameRating";
 import { ratingsQueryOptions } from "@/lib/ratings.functions";
@@ -73,7 +74,7 @@ function Index() {
 
       <div className={cn("panel-glass relative z-10 m-3 flex flex-col overflow-hidden rounded-3xl border border-border sm:m-5 lg:h-[calc(100vh-2.5rem)]",
         res ? "lg:w-[1100px]" : subject ? "lg:w-[680px]" : "lg:w-[330px]")}>
-        <header className="flex items-center justify-between border-b border-border px-6 py-5">
+        <header className="flex flex-wrap items-center justify-between gap-y-3 border-b border-border px-6 py-5">
           <Link to="/" onClick={() => { setSubject(null); setSlug(null); }} className="text-2xl font-bold tracking-tight">
             playshelf<span className="text-dot-red">.</span>
           </Link>
@@ -83,6 +84,7 @@ function Index() {
             className="rounded-full bg-secondary px-4 py-1.5 text-sm font-medium hover:bg-accent">
             {copied ? "Email copied!" : "Contact"}
           </button>
+          <div className="w-full"><SaveDeviceGuide /></div>
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col lg:flex-row">

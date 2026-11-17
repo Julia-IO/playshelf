@@ -27,3 +27,7 @@
 # Splat! Art Studio rating support
 - [x] Add splat-art-studio to both database rating rules while preserving existing slugs.
 - [x] Update both regression tests to the new migration and verify database coverage.
+
+# Save-to-device guide
+- [x] Add a quiet homepage link and on-demand Safari/Chrome instructions for phones and computers.
+- [ ] Verify the guide opens, switches browser instructions, closes, and fits phone and computer screens.

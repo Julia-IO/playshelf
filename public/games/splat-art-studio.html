@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Patrick+Hand&family=Permanent+Marker&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 <style>
-/* VOICE: playful, hand-made, read-aloud friendly for kids 7+
+/* VOICE: playful, hand-made, reading friendly for kids 7+
    IDEA: an artist's activity book you paint inside, page by page
    PICTURE: Splat the ink blot guide (changes style per studio) + the live painting canvas
    COLOUR and TYPE: paper white, ink black, tomato red, cobalt, sunflower, grass; mixed hand lettering + Patrick Hand
@@ -45,7 +45,7 @@ body{margin:0;background:var(--desk);color:var(--ink);font:18px/1.45 var(--hand)
 .L6{background:var(--yel);color:var(--ink);padding:.04em .12em;transform:rotate(4deg);clip-path:polygon(0 3%,100% 0,96% 100%,4% 96%)}
 .sub{font:clamp(24px,3.4vw,34px)/1.1 var(--brush);margin:.5em 0 0;position:relative}
 .hero{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,36px);margin:clamp(14px,3vw,30px) auto;max-width:860px;position:relative;text-align:start}
-.blobBtn{background:none;border:0;padding:0;cursor:pointer;flex:none}
+.blobBtn{background:none;border:0;padding:0;flex:none}
 .hero .blob{width:clamp(170px,26vw,280px);height:auto}
 .bubble{position:relative;background:#fff;border:3px solid var(--ink);border-radius:28px 22px 30px 18px;padding:14px 18px;font-size:20px;margin:0}
 .bubble.big{font-size:clamp(20px,2.4vw,26px);max-width:440px}
@@ -93,9 +93,7 @@ input{font:22px var(--hand);border:0;border-bottom:3px solid var(--ink);backgrou
 /* blob */
 .blob{display:block;overflow:visible}
 .blob .bb{transform-origin:62px 112px;animation:wob 3.2s ease-in-out infinite}
-.talking .blob .bb{animation:talk .32s ease-in-out infinite}
 @keyframes wob{50%{transform:scale(1.04,.95) rotate(-2deg)}}
-@keyframes talk{50%{transform:scale(.95,1.07)}}
 /* overlay, book, guess */
 .ov{position:fixed;inset:0;background:rgba(20,16,10,.6);display:grid;place-items:center;padding:16px;z-index:10}
 .card{background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:22px;max-width:520px;width:100%;box-shadow:6px 6px 0 var(--ink)}
@@ -151,7 +149,7 @@ input{font:22px var(--hand);border:0;border-bottom:3px solid var(--ink);backgrou
   <svg class="spl d" viewBox="0 0 200 200" aria-hidden="true"><circle cx="54" cy="150" r="18" fill="#2f9e44"/><circle cx="100" cy="176" r="6" fill="#2f9e44"/><circle cx="30" cy="104" r="4" fill="#1b1b1b"/></svg>
   <h1 class="ttl" id="title"></h1>
   <p class="sub" data-t="sub"></p>
-  <div class="hero"><button class="blobBtn" id="homeBlob" aria-label="Listen"></button><p class="bubble big" data-t="hi"></p></div>
+  <div class="hero"><div class="blobBtn" id="homeBlob"></div><p class="bubble big" data-t="hi"></p></div>
   <form class="nameF" id="nameF"><label><span data-t="name"></span> <input id="kid" autocomplete="off" maxlength="24"></label><button class="btn red big" data-t="go"></button></form>
 </section>
 
@@ -163,9 +161,9 @@ input{font:22px var(--hand);border:0;border-bottom:3px solid var(--ink);backgrou
 </section>
 
 <section id="studio" class="page screen" hidden>
-  <div class="top"><button class="btn" data-nav="map">← <span data-t="back"></span></button><h2 id="sName"></h2><span class="yrs" id="sYears"></span><span class="sp"></span><button class="btn" id="sListen" data-t="listen"></button></div>
+  <div class="top"><button class="btn" data-nav="map">← <span data-t="back"></span></button><h2 id="sName"></h2><span class="yrs" id="sYears"></span><span class="sp"></span></div>
   <div class="sgrid">
-    <aside class="guide"><button class="blobBtn" id="sBlob" aria-label="Listen"></button><p class="bubble" id="sStory"></p></aside>
+    <aside class="guide"><div class="blobBtn" id="sBlob"></div><p class="bubble" id="sStory"></p></aside>
     <div class="note ch" id="sChal"></div>
     <div class="work"><div class="cwrap" id="cwrap"><canvas id="cv" width="1200" height="800"></canvas><div id="torch" hidden></div></div><div class="tray" id="tray"></div></div>
     <div class="note fact" id="sFact"></div>
@@ -199,8 +197,8 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
 let lang=store.get('splat-lang','en')==='es'?'es':'en',kid=store.get('splat-name',''),sound=store.get('splat-sound',true)!==false,book=store.get('splat-book',[]);
 if(!Array.isArray(book))book=[];
 
-const T={en:{title:'Splat!',sub:'Paint like the great artists',hi:"Hi! I'm Splat, a little blot of ink. In every artist's studio I change my look. Come and paint with me!",name:'My name is',namePh:'your name',go:'Open the museum',museum:'The Museum of Magic Doors',museumSub:"Every door is an artist's studio. Go in, listen to their story and paint with their tools.",soon:'Coming soon',mybook:'My book',guess:'Who painted it?',back:'Museum',listen:'Listen',fact:'Did you know?',challenge:'Challenge',undo:'Undo',clear:'Start again',done:'Finished!',frameT:'Hang it in your book',frameQ:'What is your painting called?',titlePh:'My painting',hang:'Hang it!',cancel:'Not yet',by:'by',style:'in the style of',empty:'Your book is empty. Go into a studio and paint something!',guessQ:'Whose magic tools made this painting?',guessNeed:'Paint at least 3 pictures in 2 different studios, then come back to play!',yes:'Yes!',no:'Not quite.',yesL:"It's from the studio of {a}.",next:'Next painting',score:'Points',soundOn:'Sound on',soundOff:'Sound off',lang:'Español',del:'Remove',sure:'Sure?',saved:'Hung in your book!',full:"Saved for now, but this device's storage is full. Remove an old painting to keep new ones.",bookSub:'Your own museum. Every painting has a label, just like in a real one.',bookTitle:'My art book',lineHint:'Drag your finger to draw a line',play:'Play my painting',step:'Step back',torch:'Torch',defName:'a mystery artist'},
-es:{title:'¡Mancha!',sub:'Pinta como los grandes artistas',hi:'¡Hola! Soy Mancha, una gotita de tinta. En el estudio de cada artista cambio de aspecto. ¡Ven a pintar conmigo!',name:'Me llamo',namePh:'tu nombre',go:'Abrir el museo',museum:'El Museo de las Puertas Mágicas',museumSub:'Cada puerta es el estudio de un artista. Entra, escucha su historia y pinta con sus herramientas.',soon:'Muy pronto',mybook:'Mi libro',guess:'¿Quién lo pintó?',back:'Museo',listen:'Escuchar',fact:'¿Sabías que…?',challenge:'Reto',undo:'Deshacer',clear:'Empezar de nuevo',done:'¡Terminado!',frameT:'Cuélgalo en tu libro',frameQ:'¿Cómo se llama tu cuadro?',titlePh:'Mi cuadro',hang:'¡Colgar!',cancel:'Todavía no',by:'de',style:'al estilo de',empty:'Tu libro está vacío. ¡Entra en un estudio y pinta algo!',guessQ:'¿Qué herramientas mágicas hicieron este cuadro?',guessNeed:'Pinta al menos 3 cuadros en 2 estudios distintos y vuelve a jugar.',yes:'¡Sí!',no:'Casi…',yesL:'Es del estudio de {a}.',next:'Siguiente cuadro',score:'Puntos',soundOn:'Sonido: sí',soundOff:'Sonido: no',lang:'English',del:'Quitar',sure:'¿Seguro?',saved:'¡Colgado en tu libro!',full:'Guardado por ahora, pero la memoria de este dispositivo está llena. Quita un cuadro antiguo para guardar los nuevos.',bookSub:'Tu propio museo. Cada cuadro tiene su cartela, como en un museo de verdad.',bookTitle:'Mi libro de arte',lineHint:'Arrastra el dedo para dibujar una línea',play:'Tocar mi cuadro',step:'Aléjate',torch:'Antorcha',defName:'alguien misterioso'}};
+const T={en:{title:'Splat!',sub:'Paint like the great artists',hi:"Hi! I'm Splat, a little blot of ink. In every artist's studio I change my look. Come and paint with me!",name:'My name is',namePh:'your name',go:'Open the museum',museum:'The Museum of Magic Doors',museumSub:"Every door is an artist's studio. Go in, read their story and paint with their tools.",soon:'Coming soon',mybook:'My book',guess:'Who painted it?',back:'Museum',fact:'Did you know?',challenge:'Challenge',undo:'Undo',clear:'Start again',done:'Finished!',frameT:'Hang it in your book',frameQ:'What is your painting called?',titlePh:'My painting',hang:'Hang it!',cancel:'Not yet',by:'by',style:'in the style of',empty:'Your book is empty. Go into a studio and paint something!',guessQ:'Whose magic tools made this painting?',guessNeed:'Paint at least 3 pictures in 2 different studios, then come back to play!',yes:'Yes!',no:'Not quite.',yesL:"It's from the studio of {a}.",next:'Next painting',score:'Points',soundOn:'Sound on',soundOff:'Sound off',lang:'Español',del:'Remove',sure:'Sure?',saved:'Hung in your book!',full:"Saved for now, but this device's storage is full. Remove an old painting to keep new ones.",bookSub:'Your own museum. Every painting has a label, just like in a real one.',bookTitle:'My art book',lineHint:'Drag your finger to draw a line',play:'Play my painting',step:'Step back',torch:'Torch',defName:'a mystery artist'},
+es:{title:'¡Mancha!',sub:'Pinta como los grandes artistas',hi:'¡Hola! Soy Mancha, una gotita de tinta. En el estudio de cada artista cambio de aspecto. ¡Ven a pintar conmigo!',name:'Me llamo',namePh:'tu nombre',go:'Abrir el museo',museum:'El Museo de las Puertas Mágicas',museumSub:'Cada puerta es el estudio de un artista. Entra, lee su historia y pinta con sus herramientas.',soon:'Muy pronto',mybook:'Mi libro',guess:'¿Quién lo pintó?',back:'Museo',fact:'¿Sabías que…?',challenge:'Reto',undo:'Deshacer',clear:'Empezar de nuevo',done:'¡Terminado!',frameT:'Cuélgalo en tu libro',frameQ:'¿Cómo se llama tu cuadro?',titlePh:'Mi cuadro',hang:'¡Colgar!',cancel:'Todavía no',by:'de',style:'al estilo de',empty:'Tu libro está vacío. ¡Entra en un estudio y pinta algo!',guessQ:'¿Qué herramientas mágicas hicieron este cuadro?',guessNeed:'Pinta al menos 3 cuadros en 2 estudios distintos y vuelve a jugar.',yes:'¡Sí!',no:'Casi…',yesL:'Es del estudio de {a}.',next:'Siguiente cuadro',score:'Puntos',soundOn:'Sonido: sí',soundOff:'Sonido: no',lang:'English',del:'Quitar',sure:'¿Seguro?',saved:'¡Colgado en tu libro!',full:'Guardado por ahora, pero la memoria de este dispositivo está llena. Quita un cuadro antiguo para guardar los nuevos.',bookSub:'Tu propio museo. Cada cuadro tiene su cartela, como en un museo de verdad.',bookTitle:'Mi libro de arte',lineHint:'Arrastra el dedo para dibujar una línea',play:'Tocar mi cuadro',step:'Aléjate',torch:'Antorcha',defName:'alguien misterioso'}};
 const t=k=>T[lang][k]??k, L=o=>o[lang];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -240,7 +238,7 @@ const LOCK=[['Claude Monet','1840–1926'],['Katsushika Hokusai','1760–1849'],
 const BLOB='M62 8C92 4 116 28 112 58c10 30-12 58-44 56-30 8-58-12-56-44C2 40 30 12 62 8z';
 const blob=fill=>`<svg class="blob" viewBox="-4 -4 128 126" aria-hidden="true"><g class="bb"><path d="${BLOB}" fill="${fill}" stroke="#1b1b1b" stroke-width="3.5"/></g></svg>`;
 
-/* ---------- sound + voice ---------- */
+/* ---------- sound effects ---------- */
 let AC=null,lastS=0;
 function ac(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}if(AC.state==='suspended')AC.resume();return AC}
 function tone(f,{type='sine',f2=0,dur=.3,vol=.2,at=.01,lp=0,delay=0}={}){const a=sound&&ac();if(!a)return;const t0=a.currentTime+delay,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+dur);g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(vol,t0+at);g.gain.exponentialRampToValueAtTime(.0001,t0+dur);let n=o;if(lp){const fl=a.createBiquadFilter();fl.type='lowpass';fl.frequency.value=lp;o.connect(fl);n=fl}n.connect(g).connect(a.destination);o.start(t0);o.stop(t0+dur+.05)}
@@ -262,9 +260,6 @@ function inst(k,y){const f=SCALE[Math.max(0,Math.min(SCALE.length-1,Math.round((
  else if(k==='cello')tone(f,{type:'sawtooth',dur:1,vol:.16,at:.12,lp:900});
  else if(k==='piano'){tone(f*2,{type:'triangle',dur:.7,vol:.22});tone(f*4,{dur:.3,vol:.05})}
  else{tone(f*4,{dur:1.4,vol:.13});tone(f*4*2.76,{dur:.7,vol:.04})}}
-function talk(on){$$('.guide,.hero').forEach(x=>x.classList.toggle('talking',on))}
-function speak(txt){try{const s=window.speechSynthesis;if(!s)return;s.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=lang==='es'?'es-ES':'en-GB';u.rate=.92;u.pitch=1.1;const v=s.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith(lang));if(v)u.voice=v;u.onstart=()=>talk(true);u.onend=u.onerror=()=>talk(false);s.speak(u)}catch(e){}}
-function hush(){try{window.speechSynthesis&&speechSynthesis.cancel()}catch(e){}talk(false)}
 let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,2600)}
 
 /* ---------- canvas engines ---------- */
@@ -355,7 +350,7 @@ cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',end
 /* ---------- screens ---------- */
 let scr='home';
 function show(id){$$('.screen').forEach(s=>s.hidden=s.id!==id);scr=id;window.scrollTo(0,0)}
-function go(id){hush();if(scr==='studio'&&id!=='studio')leave();if(id==='map')renderMap();if(id==='book')renderBook();if(id==='guess'){newGuess()}show(id)}
+function go(id){if(scr==='studio'&&id!=='studio')leave();if(id==='map')renderMap();if(id==='book')renderBook();if(id==='guess'){newGuess()}show(id)}
 function letters(s){return[...s].map((ch,i)=>`<span class="L L${i%6+1}">${esc(ch)}</span>`).join('')}
 function renderMap(){$('#doors').innerHTML=S.map(s=>`<button class="door" data-go="${s.id}">${blob(`url(#p-${s.pat})`)}<b>${L(s.name)}</b><small>${L(s.years)}</small></button>`).join('')+LOCK.map(([n,y])=>`<div class="door lock" aria-disabled="true">${blob('#d9d2c5')}<span class="soon">${t('soon')}</span><b>${n}</b><small>${y}</small></div>`).join('')}
 function updTorch(){$('#torch').hidden=!(def&&def.id==='cave'&&torch)}
@@ -369,7 +364,7 @@ function studioText(){$('#sName').textContent=L(def.name);$('#sYears').textConte
  $('#sChal').innerHTML=`<h4>${t('challenge')}</h4><p>${esc(L(def.chal))}</p>`;$('#sFact').innerHTML=`<h4>${t('fact')}</h4><p>${esc(L(def.fact))}</p>`;tray()}
 function enter(id){def=S.find(s=>s.id===id);tool=def.tools[0][0];color=def.pal?def.pal[0]:'';undoSt=[];blurOn=false;$('#cwrap').classList.remove('blur');torch=false;
  const en=E[id],m=mem[id];if(m!=null){if(raster[id])ctx.putImageData(m,0,0);else{en.st=JSON.parse(m);en.render()}}else en.init();
- updTorch();studioText();show('studio');speak(L(def.story))}
+ updTorch();studioText();show('studio')}
 function leave(){if(!def)return;stopPlay();mem[def.id]=raster[def.id]?ctx.getImageData(0,0,W,H):JSON.stringify(E[def.id].st);def=null;drag=null;busy=false;updTorch()}
 
 /* ---------- frame + book ---------- */
@@ -393,7 +388,7 @@ function applyLang(){document.documentElement.lang=lang;$$('[data-t]').forEach(e
  if(scr==='map')renderMap();if(scr==='book')renderBook();if(scr==='guess')renderGuess();if(scr==='studio'&&def)studioText()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-nav],[data-go],[data-tool],[data-col],[data-ex],[data-del],[data-g]');if(!b||b.disabled)return;ac();const d=b.dataset;
  if(d.nav)go(d.nav);
- else if(d.go){hush();enter(d.go);sfx('snap')}
+ else if(d.go){enter(d.go);sfx('snap')}
  else if(d.tool){tool=d.tool;tray();sfx('snap')}
  else if(d.col){color=d.col;if(def.id==='mondrian')tool='fill';tray();sfx('pop')}
  else if(d.ex){const x=d.ex;
@@ -407,11 +402,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-nav],[data
  else if(d.g)answer(d.g)});
 $('#gNext').addEventListener('click',()=>{newGuess();sfx('snap')});
 $('#nameF').addEventListener('submit',e=>{e.preventDefault();ac();kid=$('#kid').value.trim();store.set('splat-name',kid);sfx('yay');go('map')});
-$('#homeBlob').addEventListener('click',()=>speak(t('hi')));
-$('#sBlob').addEventListener('click',()=>def&&speak(L(def.story)));
-$('#sListen').addEventListener('click',()=>def&&speak(L(def.story)+' '+t('challenge')+': '+L(def.chal)));
-$('#bLang').addEventListener('click',()=>{hush();lang=lang==='en'?'es':'en';store.set('splat-lang',lang);applyLang()});
-$('#bSound').addEventListener('click',()=>{sound=!sound;if(!sound)hush();store.set('splat-sound',sound);applyLang()});
+$('#bLang').addEventListener('click',()=>{lang=lang==='en'?'es':'en';store.set('splat-lang',lang);applyLang()});
+$('#bSound').addEventListener('click',()=>{sound=!sound;store.set('splat-sound',sound);applyLang()});
 $('#ovNo').addEventListener('click',()=>$('#ov').hidden=true);
 $('#ovYes').addEventListener('click',hang);
 $('#ovTitle').addEventListener('keydown',e=>{if(e.key==='Enter')hang()});

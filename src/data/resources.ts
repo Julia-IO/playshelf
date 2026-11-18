@@ -40,7 +40,7 @@ export const resources: Resource[] = [
     dateAdded: "Nov 16, 2026",
     tags: ["Painting", "Art history", "Famous artists", "English & Spanish"],
     description:
-      "Visit the studios of great artists with Splat the ink blot. Hear their stories, then paint like cave painters, Seurat, Van Gogh, Mondrian and Kandinsky, hang your work in your own book and guess who painted it. Playable in English and Spanish.",
+      "Visit the studios of great artists with Splat the ink blot. Read their stories, then paint like cave painters, Seurat, Van Gogh, Mondrian and Kandinsky, hang your work in your own book and guess who painted it. Playable in English and Spanish.",
     color: "dot-blue",
   },
   {

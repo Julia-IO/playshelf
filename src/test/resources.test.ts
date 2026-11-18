@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import { resources, resourcesFor, subjects } from "@/data/resources";
 
 describe("Mission: Order of Operations", () => {
@@ -49,6 +50,11 @@ describe("Little Town", () => {
   });
 });
 describe("Splat! Art Studio", () => {
+  it("never invokes browser text-to-speech narration", () => {
+    const game = readFileSync("public/games/splat-art-studio.html", "utf8");
+    expect(game).not.toMatch(/speechSynthesis|SpeechSynthesisUtterance/);
+  });
+
   it("belongs to Creativity", () => {
     expect(resourcesFor("creativity").map((game) => game.slug)).toContain("splat-art-studio");
     expect(resources.find((game) => game.slug === "splat-art-studio")?.subjects).toEqual(["creativity"]);
